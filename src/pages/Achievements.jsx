@@ -1,6 +1,6 @@
 import AchievementCard from "../components/AchievementCard";
 
-function Achievements({ progress }) {
+function Achievements({ progress, goals }) {
   return (
     <main className="main">
       <header className="topbar">
@@ -10,7 +10,7 @@ function Achievements({ progress }) {
         </div>
       </header>
 
-      <AchievementCard progress={progress} />
+      <AchievementCard progress={progress} goals={goals} />
     </main>
   );
 }
