@@ -1631,3 +1631,127 @@ line-height:1.55;
 font-weight:700;
 color:#174b3c;
 }
+
+.jarvis-v2-card{
+margin-top:28px;
+background:#ffffff;
+border:1px solid #e7e7df;
+border-radius:32px;
+padding:34px;
+}
+
+.jarvis-v2-head{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:20px;
+}
+
+.jarvis-v2-head h2{
+margin:0;
+display:flex;
+align-items:center;
+gap:12px;
+font-size:38px;
+line-height:1.12;
+color:#063d2f;
+}
+
+.jarvis-mode{
+display:flex;
+align-items:center;
+gap:8px;
+background:#edf4df;
+border:1px solid #d6dfc7;
+border-radius:999px;
+padding:10px 14px;
+font-weight:900;
+color:#063d2f;
+white-space:nowrap;
+}
+
+.jarvis-main-text{
+font-size:23px;
+line-height:1.5;
+font-weight:750;
+color:#174b3c;
+margin:26px 0;
+}
+
+.jarvis-main-text b{
+color:#063d2f;
+}
+
+.jarvis-insight-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
+}
+
+.jarvis-insight-grid div{
+background:#f8f8f4;
+border:1px solid #eeeeE7;
+border-radius:20px;
+padding:18px;
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+.jarvis-insight-grid svg{
+color:#0b6b4f;
+}
+
+.jarvis-insight-grid span{
+font-size:13px;
+font-weight:900;
+color:#66776d;
+}
+
+.jarvis-insight-grid b{
+font-size:20px;
+color:#073b2e;
+text-transform:capitalize;
+}
+
+.jarvis-recommendation{
+margin-top:22px;
+background:#edf4df;
+border:1px solid #d6dfc7;
+border-radius:22px;
+padding:22px;
+}
+
+.jarvis-recommendation h4{
+margin:0 0 8px;
+font-size:18px;
+color:#063d2f;
+}
+
+.jarvis-recommendation p{
+margin:0;
+font-size:21px;
+line-height:1.45;
+font-weight:850;
+color:#174b3c;
+}
+
+.jarvis-signature{
+margin:20px 0 0;
+font-weight:900;
+color:#60776d;
+}
+
+@media(max-width:900px){
+.jarvis-v2-head{
+flex-direction:column;
+}
+
+.jarvis-v2-head h2{
+font-size:31px;
+}
+
+.jarvis-insight-grid{
+grid-template-columns:1fr;
+}
+}
