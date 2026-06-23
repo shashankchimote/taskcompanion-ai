@@ -1755,3 +1755,217 @@ font-size:31px;
 grid-template-columns:1fr;
 }
 }
+
+.dna-card{
+margin-top:28px;
+background:#ffffff;
+border:1px solid #e7e7df;
+border-radius:28px;
+padding:28px;
+}
+
+.dna-header{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:20px;
+}
+
+.dna-header h3{
+margin:0;
+display:flex;
+align-items:center;
+gap:10px;
+font-size:26px;
+color:#063d2f;
+}
+
+.dna-score{
+height:82px;
+width:82px;
+border-radius:50%;
+background:#edf4df;
+border:1px solid #d6dfc7;
+display:grid;
+place-items:center;
+font-weight:900;
+color:#063d2f;
+}
+
+.dna-score span{
+font-size:30px;
+line-height:1;
+margin-top:15px;
+}
+
+.dna-score small{
+font-size:12px;
+margin-top:-25px;
+}
+
+.dna-content{
+margin-top:24px;
+display:grid;
+grid-template-columns:1.2fr .8fr;
+gap:24px;
+align-items:center;
+}
+
+.dna-chart{
+height:350px;
+background:#f8f8f4;
+border:1px solid #eeeeE7;
+border-radius:22px;
+padding:16px;
+}
+
+.dna-list{
+display:grid;
+gap:12px;
+}
+
+.dna-list div{
+background:#f8f8f4;
+border:1px solid #eeeeE7;
+border-radius:16px;
+padding:16px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.dna-list span{
+font-weight:900;
+color:#66776d;
+}
+
+.dna-list b{
+font-size:22px;
+color:#073b2e;
+}
+
+.dna-insight{
+margin-top:22px;
+display:flex;
+align-items:flex-start;
+gap:12px;
+background:#edf4df;
+border:1px solid #d6dfc7;
+border-radius:20px;
+padding:18px;
+}
+
+.dna-insight svg{
+color:#0b6b4f;
+}
+
+.dna-insight p{
+margin:0;
+font-size:18px;
+line-height:1.45;
+font-weight:800;
+color:#174b3c;
+}
+
+@media(max-width:900px){
+.dna-content{
+grid-template-columns:1fr;
+}
+
+.dna-header{
+flex-direction:column;
+}
+}
+
+.heatmap-card{
+margin-top:28px;
+background:#ffffff;
+border:1px solid #e7e7df;
+border-radius:28px;
+padding:28px;
+}
+
+.heatmap-header{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:20px;
+}
+
+.heatmap-header h3{
+margin:0;
+display:flex;
+align-items:center;
+gap:10px;
+font-size:26px;
+color:#063d2f;
+}
+
+.heatmap-badge{
+display:flex;
+align-items:center;
+gap:8px;
+background:#edf4df;
+border:1px solid #d6dfc7;
+border-radius:999px;
+padding:10px 14px;
+font-weight:900;
+color:#063d2f;
+white-space:nowrap;
+}
+
+.heatmap-grid{
+margin-top:26px;
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:10px;
+}
+
+.heat-cell{
+height:38px;
+border-radius:10px;
+border:1px solid #e7e7df;
+}
+
+.heat-0{background:#f1f3ed;}
+.heat-1{background:#dbe8cf;}
+.heat-2{background:#b7d9a7;}
+.heat-3{background:#78b96d;}
+.heat-4{background:#0b6b4f;}
+
+.heatmap-legend{
+margin-top:18px;
+display:flex;
+align-items:center;
+gap:8px;
+font-weight:800;
+color:#66776d;
+}
+
+.heatmap-legend .heat-cell{
+height:18px;
+width:18px;
+border-radius:5px;
+}
+
+.heatmap-insight{
+margin:22px 0 0;
+background:#edf4df;
+border:1px solid #d6dfc7;
+border-radius:20px;
+padding:18px;
+font-size:18px;
+line-height:1.45;
+font-weight:800;
+color:#174b3c;
+}
+
+@media(max-width:700px){
+.heatmap-header{
+flex-direction:column;
+}
+
+.heat-cell{
+height:30px;
+}
+}
