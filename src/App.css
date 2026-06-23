@@ -1610,3 +1610,24 @@ grid-template-columns:repeat(2,1fr);
 grid-template-columns:1fr;
 }
 }
+
+.jarvis-card{
+margin-top:28px;
+background:#ffffff;
+border:1px solid #e7e7df;
+border-radius:28px;
+padding:32px;
+}
+
+.jarvis-card h2{
+margin:0 0 16px;
+font-size:38px;
+color:#063d2f;
+}
+
+.jarvis-card p{
+font-size:20px;
+line-height:1.55;
+font-weight:700;
+color:#174b3c;
+}
