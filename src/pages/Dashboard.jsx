@@ -10,6 +10,8 @@ import BottomQuote from "../components/BottomQuote";
 import ReflectionCard from "../components/ReflectionCard";
 import StreakCard from "../components/StreakCard";
 import BehaviorAnalysisCard from "../components/BehaviorAnalysisCard";
+import WeeklyReportCard from "../components/WeeklyReportCard";
+import AchievementCard from "../components/AchievementCard";
 
 function chooseIcon(title) {
   const text = title.toLowerCase();
@@ -175,6 +177,10 @@ function Dashboard({ personality }) {
       />
 
       <BehaviorAnalysisCard personality={personality} goals={goals} />
+
+      <WeeklyReportCard personality={personality} progress={progress} />
+
+      <AchievementCard progress={progress} />
 
       <BottomQuote aiMessage={aiMessage} personality={personality} />
     </main>
