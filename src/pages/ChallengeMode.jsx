@@ -22,7 +22,7 @@ const refereeMessages = {
 function ChallengeMode({ personality }) {
   const challenge = {
     name: "Weekly Grind Challenge",
-    me: "Shashank",
+    me: user?.name?.split(" ")[0],
     opponent: "Ravi",
     stake: 100,
     meCompleted: 8,
@@ -149,10 +149,10 @@ function ChallengeMode({ personality }) {
         </div>
 
         <div className="activity-feed">
-          <p>✅ Shashank completed DSA Assignment</p>
+          <p>✅ user?.name?.split(" ")[0] completed DSA Assignment</p>
           <p>✅ Ravi completed Gym</p>
           <p>❌ Ravi missed ML Course</p>
-          <p>🔥 Shashank streak increased to 5</p>
+          <p>🔥 user?.name?.split(" ")[0] streak increased to 5</p>
           <p>⚡ AI referee updated win prediction</p>
         </div>
       </section>
@@ -167,7 +167,7 @@ function ChallengeMode({ personality }) {
           <Trophy size={34} />
           <div>
             <p>Current Leader</p>
-            <h3>Shashank</h3>
+            <h3>user?.name?.split(" ")[0]</h3>
             <span>Leading by 2 tasks · Consistency score 91</span>
           </div>
         </div>
@@ -195,7 +195,7 @@ function ChallengeMode({ personality }) {
         <div className="clean-list">
           <div>
             <span>Week 1</span>
-            <b>Shashank won</b>
+            <b>user?.name?.split(" ")[0] won</b>
           </div>
           <div>
             <span>Week 2</span>
@@ -203,7 +203,7 @@ function ChallengeMode({ personality }) {
           </div>
           <div>
             <span>Week 3</span>
-            <b>Shashank won</b>
+            <b>user?.name?.split(" ")[0] won</b>
           </div>
         </div>
       </section>
