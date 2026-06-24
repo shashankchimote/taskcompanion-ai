@@ -2,6 +2,7 @@ import { Calendar } from "lucide-react";
 import NotificationCenter from "./NotificationCenter";
 
 function Topbar({
+  user,
   completedCount,
   totalGoals,
   notifications,
@@ -14,7 +15,9 @@ function Topbar({
   return (
     <header className="topbar">
       <div>
-        <h2>Good evening, Shashank 👋</h2>
+        <h2>
+        Good morning, {user?.name?.split(" ")[0] || "User"} 👋
+        </h2>
         <p>{completedCount} of {totalGoals} goals completed today.</p>
       </div>
 

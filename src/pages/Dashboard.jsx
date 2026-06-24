@@ -29,6 +29,7 @@ function Dashboard({
   return (
     <main className="main">
       <Topbar
+        user={user}
         completedCount={completedCount}
         totalGoals={goals.length}
         notifications={notifications}
