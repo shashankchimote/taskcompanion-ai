@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import AIPlanner from "./pages/AIPlanner";
@@ -10,13 +11,26 @@ import ChallengeMode from "./pages/ChallengeMode";
 import LongTermGoals from "./pages/LongTermGoals";
 import FocusMode from "./pages/FocusMode";
 import Settings from "./pages/Settings";
+import Login from "./pages/Login";
 
 import { generateTasks } from "./generateTasks";
-import { Target, Code2, BookOpen, Dumbbell, FileText, Repeat } from "lucide-react";
+import { saveUserData, loadUserData } from "./firebaseData";
+
+import {
+  Target,
+  Code2,
+  BookOpen,
+  Dumbbell,
+  FileText,
+  Repeat,
+} from "lucide-react";
 
 const personalities = {
   Coach: { emoji: "🛡️", quote: "Discipline today, freedom tomorrow." },
-  Roast: { emoji: "💀", quote: "Bro really thought the assignment would complete itself." },
+  Roast: {
+    emoji: "💀",
+    quote: "Bro really thought the assignment would complete itself.",
+  },
   Friendly: { emoji: "❤️", quote: "One small step at a time." },
   Meme: { emoji: "😂", quote: "Your CGPA is watching." },
   Monk: { emoji: "🧘", quote: "Focus on the present task." },
@@ -24,7 +38,10 @@ const personalities = {
 
 const loadingMessages = {
   Coach: ["🛡️ Building a winning day...", "🔥 Turning goals into action..."],
-  Roast: ["💀 Calculating procrastination damage...", "☠️ Emergency productivity rescue..."],
+  Roast: [
+    "💀 Calculating procrastination damage...",
+    "☠️ Emergency productivity rescue...",
+  ],
   Friendly: ["❤️ Organizing your day gently...", "✨ Creating a calm plan..."],
   Meme: ["😂 Converting chaos into content...", "☕ Brewing panic productivity..."],
   Monk: ["🧘 Finding clarity...", "🌿 Creating a peaceful plan..."],
@@ -43,18 +60,54 @@ function nowTime() {
 
 function chooseIcon(title) {
   const text = title.toLowerCase();
+
   if (text.includes("gym") || text.includes("workout")) return Dumbbell;
-  if (text.includes("ml") || text.includes("course") || text.includes("study")) return BookOpen;
-  if (text.includes("paper") || text.includes("report") || text.includes("assignment")) return FileText;
-  if (text.includes("code") || text.includes("dsa") || text.includes("leetcode")) return Code2;
+  if (text.includes("ml") || text.includes("course") || text.includes("study"))
+    return BookOpen;
+  if (
+    text.includes("paper") ||
+    text.includes("report") ||
+    text.includes("assignment")
+  )
+    return FileText;
+  if (text.includes("code") || text.includes("dsa") || text.includes("leetcode"))
+    return Code2;
+
   return Target;
 }
 
 function getDefaultGoals() {
   return [
-    { id: 1, title: "DSA Assignment", icon: Code2, due: "Tomorrow", time: "3 - 4 hrs", priority: "HIGH PRIORITY", type: "high", completed: false },
-    { id: 2, title: "ML Course Module", icon: BookOpen, due: "Sunday", time: "2 - 3 hrs", priority: "MEDIUM PRIORITY", type: "medium", completed: false },
-    { id: 3, title: "Gym", icon: Dumbbell, due: "Daily", time: "1 hr", priority: "LOW PRIORITY", type: "low", completed: false },
+    {
+      id: 1,
+      title: "DSA Assignment",
+      icon: Code2,
+      due: "Tomorrow",
+      time: "3 - 4 hrs",
+      priority: "HIGH PRIORITY",
+      type: "high",
+      completed: false,
+    },
+    {
+      id: 2,
+      title: "ML Course Module",
+      icon: BookOpen,
+      due: "Sunday",
+      time: "2 - 3 hrs",
+      priority: "MEDIUM PRIORITY",
+      type: "medium",
+      completed: false,
+    },
+    {
+      id: 3,
+      title: "Gym",
+      icon: Dumbbell,
+      due: "Daily",
+      time: "1 hr",
+      priority: "LOW PRIORITY",
+      type: "low",
+      completed: false,
+    },
   ];
 }
 
@@ -62,6 +115,7 @@ function loadSavedGoals() {
   try {
     const savedGoals = localStorage.getItem("goals");
     if (!savedGoals) return getDefaultGoals();
+
     return JSON.parse(savedGoals).map((goal) => ({
       ...goal,
       icon: chooseIcon(goal.title || ""),
@@ -75,6 +129,7 @@ function loadDailyPlans() {
   try {
     const savedPlans = localStorage.getItem("dailyPlans");
     if (!savedPlans) return [];
+
     return JSON.parse(savedPlans).map((plan) => ({
       ...plan,
       icon: Repeat,
@@ -104,14 +159,36 @@ function loadNotifications() {
 }
 
 function App() {
-  const [activePage, setActivePage] = useState(() => localStorage.getItem("activePage") || "Dashboard");
-  const [personality, setPersonality] = useState(() => localStorage.getItem("personality") || "Coach");
-  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+
+  const [cloudLoaded, setCloudLoaded] = useState(false);
+
+  const [activePage, setActivePage] = useState(() => {
+    return localStorage.getItem("activePage") || "Dashboard";
+  });
+
+  const [personality, setPersonality] = useState(() => {
+    return localStorage.getItem("personality") || "Coach";
+  });
+
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("theme") || "light";
+  });
 
   const [taskInput, setTaskInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [aiMessage, setAiMessage] = useState(() => localStorage.getItem("aiMessage") || "");
-  const [loadingMessage, setLoadingMessage] = useState(() => loadingMessages[personality][0]);
+
+  const [aiMessage, setAiMessage] = useState(() => {
+    return localStorage.getItem("aiMessage") || "";
+  });
+
+  const [loadingMessage, setLoadingMessage] = useState(() => {
+    return loadingMessages[personality][0];
+  });
+
   const [goals, setGoals] = useState(loadSavedGoals);
   const [dailyPlans, setDailyPlans] = useState(loadDailyPlans);
   const [longGoals, setLongGoals] = useState(loadLongGoals);
@@ -143,6 +220,95 @@ function App() {
   function clearNotifications() {
     setNotifications([]);
   }
+
+  useEffect(() => {
+    async function loadCloudData() {
+      if (!user) return;
+
+      try {
+        const cloudData = await loadUserData(user.uid);
+
+        if (cloudData) {
+          if (cloudData.personality) setPersonality(cloudData.personality);
+          if (cloudData.theme) setTheme(cloudData.theme);
+          if (cloudData.activePage) setActivePage(cloudData.activePage);
+          if (cloudData.aiMessage) setAiMessage(cloudData.aiMessage);
+
+          if (cloudData.goals) {
+            setGoals(
+              cloudData.goals.map((goal) => ({
+                ...goal,
+                icon: chooseIcon(goal.title || ""),
+              }))
+            );
+          }
+
+          if (cloudData.dailyPlans) {
+            setDailyPlans(
+              cloudData.dailyPlans.map((plan) => ({
+                ...plan,
+                icon: Repeat,
+                recurring: true,
+                type: "calm",
+                priority: "DAILY PLAN",
+              }))
+            );
+          }
+
+          if (cloudData.longGoals) setLongGoals(cloudData.longGoals);
+          if (cloudData.notifications) setNotifications(cloudData.notifications);
+        }
+
+        setCloudLoaded(true);
+      } catch (error) {
+        console.error("Cloud load failed:", error);
+        setCloudLoaded(true);
+      }
+    }
+
+    loadCloudData();
+  }, [user]);
+
+  useEffect(() => {
+    async function syncCloudData() {
+      if (!user || !cloudLoaded) return;
+
+      const goalsWithoutIcons = goals.map(({ icon, ...rest }) => rest);
+      const plansWithoutIcons = dailyPlans.map(({ icon, ...rest }) => rest);
+
+      const data = {
+        user,
+        personality,
+        theme,
+        activePage,
+        aiMessage,
+        goals: goalsWithoutIcons,
+        dailyPlans: plansWithoutIcons,
+        longGoals,
+        notifications,
+        updatedAt: Date.now(),
+      };
+
+      try {
+        await saveUserData(user.uid, data);
+      } catch (error) {
+        console.error("Cloud sync failed:", error);
+      }
+    }
+
+    syncCloudData();
+  }, [
+    user,
+    cloudLoaded,
+    personality,
+    theme,
+    activePage,
+    aiMessage,
+    goals,
+    dailyPlans,
+    longGoals,
+    notifications,
+  ]);
 
   useEffect(() => {
     document.body.className = theme === "dark" ? "dark-mode" : "";
@@ -188,7 +354,9 @@ function App() {
     setLoadingMessage(loadingMessages[personality][0]);
   }, [personality]);
 
-  useEffect(() => localStorage.setItem("activePage", activePage), [activePage]);
+  useEffect(() => {
+    localStorage.setItem("activePage", activePage);
+  }, [activePage]);
 
   useEffect(() => {
     const goalsWithoutIcons = goals.map(({ icon, ...rest }) => rest);
@@ -200,12 +368,22 @@ function App() {
     localStorage.setItem("dailyPlans", JSON.stringify(plansWithoutIcons));
   }, [dailyPlans]);
 
-  useEffect(() => localStorage.setItem("longGoals", JSON.stringify(longGoals)), [longGoals]);
-  useEffect(() => localStorage.setItem("aiMessage", aiMessage), [aiMessage]);
+  useEffect(() => {
+    localStorage.setItem("longGoals", JSON.stringify(longGoals));
+  }, [longGoals]);
+
+  useEffect(() => {
+    localStorage.setItem("aiMessage", aiMessage);
+  }, [aiMessage]);
 
   const allGoals = [...dailyPlans, ...goals];
+
   const completedCount = allGoals.filter((goal) => goal.completed).length;
-  const progress = allGoals.length === 0 ? 0 : Math.round((completedCount / allGoals.length) * 100);
+
+  const progress =
+    allGoals.length === 0
+      ? 0
+      : Math.round((completedCount / allGoals.length) * 100);
 
   async function generatePlan() {
     if (taskInput.trim() === "") return;
@@ -219,6 +397,7 @@ function App() {
     try {
       const result = await generateTasks(taskInput, personality);
       const aiTasks = Array.isArray(result) ? result : result.tasks || [];
+
       setAiMessage(result.message || "");
 
       const newGoals = aiTasks.map((task) => {
@@ -230,8 +409,18 @@ function App() {
           icon: chooseIcon(task.title || ""),
           due: task.due || "Flexible",
           time: task.time || "1 hr",
-          priority: priority === "high" ? "HIGH PRIORITY" : priority === "medium" ? "MEDIUM PRIORITY" : "LOW PRIORITY",
-          type: priority === "high" ? "high" : priority === "medium" ? "medium" : "low",
+          priority:
+            priority === "high"
+              ? "HIGH PRIORITY"
+              : priority === "medium"
+              ? "MEDIUM PRIORITY"
+              : "LOW PRIORITY",
+          type:
+            priority === "high"
+              ? "high"
+              : priority === "medium"
+              ? "medium"
+              : "low",
           completed: false,
         };
       });
@@ -268,10 +457,7 @@ function App() {
 
     setDailyPlans((prev) => [newPlan, ...prev]);
 
-    addNotification(
-      "Daily plan added",
-      `${title} will now appear every day.`
-    );
+    addNotification("Daily plan added", `${title} will now appear every day.`);
   }
 
   function deleteDailyPlan(id) {
@@ -301,14 +487,12 @@ function App() {
     );
 
     if (target && !target.completed) {
-      addNotification(
-        "Task completed",
-        `${target.title} marked as complete.`
-      );
+      addNotification("Task completed", `${target.title} marked as complete.`);
     }
   }
 
   const commonProps = {
+    user,
     personality,
     goals: allGoals,
     normalGoals: goals,
@@ -335,6 +519,21 @@ function App() {
     clearNotifications,
   };
 
+  if (!user) {
+    return <Login setUser={setUser} />;
+  }
+
+  if (!cloudLoaded) {
+    return (
+      <div className="login-page">
+        <div className="login-card">
+          <h1>TaskCompanion AI</h1>
+          <p>Loading your cloud workspace...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="app">
       <Sidebar
@@ -358,14 +557,17 @@ function App() {
       {activePage === "Habits" && <Habits {...commonProps} />}
       {activePage === "Analytics" && <Analytics {...commonProps} />}
       {activePage === "Achievements" && <Achievements {...commonProps} />}
-      {activePage === "Challenge Mode" && <ChallengeMode personality={personality} />}
+      {activePage === "Challenge Mode" && (
+        <ChallengeMode personality={personality} />
+      )}
       {activePage === "Settings" && (
         <Settings
-         personality={personality}
+          personality={personality}
           setPersonality={setPersonality}
           theme={theme}
           setTheme={setTheme}
-         />
+          user={user}
+        />
       )}
     </div>
   );

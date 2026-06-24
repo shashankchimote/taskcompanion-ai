@@ -1,12 +1,32 @@
-import { Moon, Sun, Palette, Bell, UserRound } from "lucide-react";
+import {
+  Moon,
+  Sun,
+  Palette,
+  Bell,
+  UserRound,
+  LogOut,
+} from "lucide-react";
+
+import { auth, signOut } from "../firebase";
 
 function Settings({
   personality,
   setPersonality,
   theme,
   setTheme,
+  user,
 }) {
   const personalities = ["Coach", "Roast", "Friendly", "Meme", "Monk"];
+
+  async function handleLogout() {
+    try {
+      await signOut(auth);
+      localStorage.removeItem("user");
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <main className="main">
@@ -18,6 +38,28 @@ function Settings({
       </header>
 
       <section className="settings-card">
+        <div className="settings-section">
+          <div className="settings-title">
+            <UserRound size={22} />
+
+            <div>
+              <h3>Account</h3>
+              <p>
+                {user?.name || "TaskCompanion User"}
+                <br />
+                {user?.email || "No email found"}
+              </p>
+            </div>
+          </div>
+
+          <div className="settings-options">
+            <button className="logout-btn" onClick={handleLogout}>
+              <LogOut size={18} />
+              Logout
+            </button>
+          </div>
+        </div>
+
         <div className="settings-section">
           <div className="settings-title">
             <Palette size={22} />
@@ -71,7 +113,10 @@ function Settings({
             <Bell size={22} />
             <div>
               <h3>Notifications</h3>
-              <p>Notification Center is active. Browser reminders can be added later.</p>
+              <p>
+                Notification Center is active. Browser reminders can be added
+                later.
+              </p>
             </div>
           </div>
 
