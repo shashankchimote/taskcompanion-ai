@@ -12,17 +12,20 @@ import {
 } from "lucide-react";
 
 const refereeMessages = {
-  Coach: "Stay disciplined. You are ahead, but the win is only safe when the work is done.",
+  Coach:
+    "Stay disciplined. You are ahead, but the win is only safe when the work is done.",
   Roast: "Ravi is dangerously close to sponsoring your next pizza 🍕.",
   Friendly: "You are ahead. Keep the energy good and finish strong ❤️.",
   Meme: "Bro is speedrunning bankruptcy 💀.",
   Monk: "Consistency is quiet, but it always wins.",
 };
 
-function ChallengeMode({ personality }) {
+function ChallengeMode({ personality, user }) {
+  const firstName = user?.name?.split(" ")[0] || "You";
+
   const challenge = {
     name: "Weekly Grind Challenge",
-    me: "You",
+    me: firstName,
     opponent: "Ravi",
     stake: 100,
     meCompleted: 8,
@@ -33,7 +36,11 @@ function ChallengeMode({ personality }) {
   };
 
   const pool = challenge.stake * 2;
-  const mePercent = Math.round((challenge.meCompleted / challenge.meTotal) * 100);
+
+  const mePercent = Math.round(
+    (challenge.meCompleted / challenge.meTotal) * 100
+  );
+
   const opponentPercent = Math.round(
     (challenge.opponentCompleted / challenge.opponentTotal) * 100
   );
@@ -64,10 +71,13 @@ function ChallengeMode({ personality }) {
         <div className="duel-row">
           <div>
             <h3>{challenge.me}</h3>
-            <p>{challenge.meCompleted}/{challenge.meTotal} tasks</p>
+            <p>
+              {challenge.meCompleted}/{challenge.meTotal} tasks
+            </p>
           </div>
           <b>{mePercent}%</b>
         </div>
+
         <div className="minimal-meter">
           <div style={{ width: `${mePercent}%` }}></div>
         </div>
@@ -75,10 +85,13 @@ function ChallengeMode({ personality }) {
         <div className="duel-row">
           <div>
             <h3>{challenge.opponent}</h3>
-            <p>{challenge.opponentCompleted}/{challenge.opponentTotal} tasks</p>
+            <p>
+              {challenge.opponentCompleted}/{challenge.opponentTotal} tasks
+            </p>
           </div>
           <b>{opponentPercent}%</b>
         </div>
+
         <div className="minimal-meter orange">
           <div style={{ width: `${opponentPercent}%` }}></div>
         </div>
@@ -89,6 +102,7 @@ function ChallengeMode({ personality }) {
           <Sparkles size={20} />
           AI Referee
         </div>
+
         <p>{refereeMessages[personality]}</p>
         <span>{personality} referee active</span>
       </section>
@@ -103,6 +117,7 @@ function ChallengeMode({ personality }) {
           <span>{challenge.me}</span>
           <b>82%</b>
         </div>
+
         <div className="minimal-meter">
           <div style={{ width: "82%" }}></div>
         </div>
@@ -111,6 +126,7 @@ function ChallengeMode({ personality }) {
           <span>{challenge.opponent}</span>
           <b>18%</b>
         </div>
+
         <div className="minimal-meter orange">
           <div style={{ width: "18%" }}></div>
         </div>
@@ -127,14 +143,17 @@ function ChallengeMode({ personality }) {
             <span>Stake</span>
             <b>₹{challenge.stake} each</b>
           </div>
+
           <div>
             <span>Winner gets</span>
             <b>₹{pool}</b>
           </div>
+
           <div>
             <span>Ends in</span>
             <b>{challenge.endsIn}</b>
           </div>
+
           <div>
             <span>Current leader</span>
             <b>{challenge.me}</b>
@@ -149,10 +168,10 @@ function ChallengeMode({ personality }) {
         </div>
 
         <div className="activity-feed">
-          <p>✅ You completed DSA Assignment</p>
-          <p>✅ Ravi completed Gym</p>
-          <p>❌ Ravi missed ML Course</p>
-          <p>🔥 You streak increased to 5</p>
+          <p>✅ {challenge.me} completed DSA Assignment</p>
+          <p>✅ {challenge.opponent} completed Gym</p>
+          <p>❌ {challenge.opponent} missed ML Course</p>
+          <p>🔥 {challenge.me}'s streak increased to 5</p>
           <p>⚡ AI referee updated win prediction</p>
         </div>
       </section>
@@ -167,8 +186,10 @@ function ChallengeMode({ personality }) {
           <Trophy size={34} />
           <div>
             <p>Current Leader</p>
-            <h3>You</h3>
-            <span>Leading by 2 tasks · Consistency score 91</span>
+            <h3>{challenge.me}</h3>
+            <span>
+              {challenge.me} is leading by 2 tasks · Consistency score 91
+            </span>
           </div>
         </div>
       </section>
@@ -195,15 +216,17 @@ function ChallengeMode({ personality }) {
         <div className="clean-list">
           <div>
             <span>Week 1</span>
-            <b>You won</b>
+            <b>{challenge.me} won</b>
           </div>
+
           <div>
             <span>Week 2</span>
-            <b>Ravi won</b>
+            <b>{challenge.opponent} won</b>
           </div>
+
           <div>
             <span>Week 3</span>
-            <b>You won</b>
+            <b>{challenge.me} won</b>
           </div>
         </div>
       </section>

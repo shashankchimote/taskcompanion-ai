@@ -10,6 +10,7 @@ import LongGoalMonitor from "../components/LongGoalMonitor";
 import DaySummary from "../components/DaySummary";
 
 function Dashboard({
+  user,
   goals,
   completedCount,
   progress,

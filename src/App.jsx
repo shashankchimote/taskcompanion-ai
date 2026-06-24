@@ -577,7 +577,7 @@ function App() {
       {activePage === "Analytics" && <Analytics {...commonProps} />}
       {activePage === "Achievements" && <Achievements {...commonProps} />}
       {activePage === "Challenge Mode" && (
-        <ChallengeMode personality={personality} />
+        <ChallengeMode personality={personality} user={user} />
       )}
       {activePage === "Settings" && (
         <Settings
