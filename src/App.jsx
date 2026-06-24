@@ -228,6 +228,25 @@ function App() {
       try {
         const cloudData = await loadUserData(user.uid);
 
+        if (!cloudData) {
+  setGoals([]);
+  setDailyPlans([]);
+  setLongGoals([]);
+  setNotifications([]);
+  setAiMessage("");
+  setActivePage("Dashboard");
+
+  localStorage.removeItem("goals");
+  localStorage.removeItem("dailyPlans");
+  localStorage.removeItem("longGoals");
+  localStorage.removeItem("notifications");
+  localStorage.removeItem("aiMessage");
+  localStorage.setItem("activePage", "Dashboard");
+
+  setCloudLoaded(true);
+  return;
+}
+
         if (cloudData) {
           if (cloudData.personality) setPersonality(cloudData.personality);
           if (cloudData.theme) setTheme(cloudData.theme);

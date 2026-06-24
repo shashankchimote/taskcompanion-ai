@@ -9,6 +9,18 @@ import {
   BarChart3,
 } from "lucide-react";
 
+function clearOldWorkspace() {
+  localStorage.removeItem("goals");
+  localStorage.removeItem("dailyPlans");
+  localStorage.removeItem("longGoals");
+  localStorage.removeItem("notifications");
+  localStorage.removeItem("aiMessage");
+  localStorage.removeItem("activePage");
+  localStorage.removeItem("focusTaskId");
+  localStorage.removeItem("focusStats");
+  localStorage.removeItem("focusSecondsLeft");
+}
+
 function Login({ setUser }) {
   async function handleLogin() {
     try {
@@ -20,6 +32,12 @@ function Login({ setUser }) {
         email: result.user.email,
         photo: result.user.photoURL,
       };
+
+      const previousUser = JSON.parse(localStorage.getItem("user") || "null");
+
+      if (previousUser && previousUser.uid !== userData.uid) {
+        clearOldWorkspace();
+      }
 
       localStorage.setItem("user", JSON.stringify(userData));
       setUser(userData);
