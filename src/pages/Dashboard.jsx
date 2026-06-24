@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Target } from "lucide-react";
 
 import Topbar from "../components/Topbar";
@@ -5,6 +6,8 @@ import ProgressCard from "../components/ProgressCard";
 import GoalPoster from "../components/GoalPoster";
 import BottomQuote from "../components/BottomQuote";
 import JarvisCard from "../components/JarvisCard";
+import LongGoalMonitor from "../components/LongGoalMonitor";
+import DaySummary from "../components/DaySummary";
 
 function Dashboard({
   goals,
@@ -14,10 +17,36 @@ function Dashboard({
   personality,
   deleteGoal,
   toggleComplete,
+  longGoals,
+  notifications,
+  notificationOpen,
+  setNotificationOpen,
+  markNotificationsRead,
+  clearNotifications,
 }) {
+  const [summaryOpen, setSummaryOpen] = useState(false);
+
   return (
     <main className="main">
-      <Topbar completedCount={completedCount} totalGoals={goals.length} />
+      <Topbar
+        completedCount={completedCount}
+        totalGoals={goals.length}
+        notifications={notifications}
+        notificationOpen={notificationOpen}
+        setNotificationOpen={setNotificationOpen}
+        markNotificationsRead={markNotificationsRead}
+        clearNotifications={clearNotifications}
+        setSummaryOpen={setSummaryOpen}
+      />
+
+      <DaySummary
+        summaryOpen={summaryOpen}
+        setSummaryOpen={setSummaryOpen}
+        completedCount={completedCount}
+        totalGoals={goals.length}
+        progress={progress}
+        longGoals={longGoals}
+      />
 
       <JarvisCard
         personality={personality}
@@ -25,6 +54,8 @@ function Dashboard({
         completedCount={completedCount}
         progress={progress}
       />
+
+      <LongGoalMonitor longGoals={longGoals} />
 
       <ProgressCard progress={progress} />
 

@@ -1,6 +1,16 @@
-import { Bell, Calendar } from "lucide-react";
+import { Calendar } from "lucide-react";
+import NotificationCenter from "./NotificationCenter";
 
-function Topbar({ completedCount, totalGoals }) {
+function Topbar({
+  completedCount,
+  totalGoals,
+  notifications,
+  notificationOpen,
+  setNotificationOpen,
+  markNotificationsRead,
+  clearNotifications,
+  setSummaryOpen,
+}) {
   return (
     <header className="topbar">
       <div>
@@ -9,8 +19,15 @@ function Topbar({ completedCount, totalGoals }) {
       </div>
 
       <div className="top-actions">
-        <Bell size={22} />
-        <button className="date-btn">
+        <NotificationCenter
+          notifications={notifications}
+          notificationOpen={notificationOpen}
+          setNotificationOpen={setNotificationOpen}
+          markNotificationsRead={markNotificationsRead}
+          clearNotifications={clearNotifications}
+        />
+
+        <button className="date-btn" onClick={() => setSummaryOpen(true)}>
           <Calendar size={17} /> Today
         </button>
       </div>

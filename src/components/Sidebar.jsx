@@ -1,12 +1,33 @@
 import {
-  Home, Calendar, Swords, Target, BarChart3, Trophy, Settings,
-  ShieldCheck, ChevronRight
+  Home,
+  Calendar,
+  Swords,
+  Target,
+  BarChart3,
+  Trophy,
+  Settings,
+  ShieldCheck,
+  ChevronRight,
+  Compass,
+  Clock,
+  Moon,
+  Sun,
 } from "lucide-react";
 
-function Sidebar({ activePage, setActivePage, personalities, personality, setPersonality }) {
+function Sidebar({
+  activePage,
+  setActivePage,
+  personalities,
+  personality,
+  setPersonality,
+  theme,
+  setTheme,
+}) {
   const navItems = [
     ["Dashboard", Home],
     ["AI Planner", Calendar],
+    ["Focus Mode", Clock],
+    ["Long Term Goals", Compass],
     ["Challenge Mode", Swords],
     ["Habits", Target],
     ["Analytics", BarChart3],
@@ -36,6 +57,22 @@ function Sidebar({ activePage, setActivePage, personalities, personality, setPer
         ))}
       </nav>
 
+      <div className="theme-toggle">
+        <button
+          className={theme === "light" ? "selected-theme" : ""}
+          onClick={() => setTheme("light")}
+        >
+          <Sun size={16} /> Light
+        </button>
+
+        <button
+          className={theme === "dark" ? "selected-theme" : ""}
+          onClick={() => setTheme("dark")}
+        >
+          <Moon size={16} /> Dark
+        </button>
+      </div>
+
       <div className="personality-card">
         <div className="personality-head">
           <span>🎭</span>
@@ -52,7 +89,9 @@ function Sidebar({ activePage, setActivePage, personalities, personality, setPer
           {Object.keys(personalities).map((mode) => (
             <button
               key={mode}
-              className={`personality-option ${personality === mode ? "selected-personality" : ""}`}
+              className={`personality-option ${
+                personality === mode ? "selected-personality" : ""
+              }`}
               onClick={() => setPersonality(mode)}
             >
               {personalities[mode].emoji} {mode}
