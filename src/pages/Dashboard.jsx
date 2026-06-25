@@ -51,6 +51,7 @@ function Dashboard({
       />
 
       <JarvisCard
+        user={user}
         personality={personality}
         goals={goals}
         completedCount={completedCount}

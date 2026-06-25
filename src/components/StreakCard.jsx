@@ -9,6 +9,10 @@ function getLevel(streak) {
 }
 
 function getStreakMessage(personality, streak) {
+  if (streak === 0) {
+    return "No streak yet. Complete tasks today to start your first streak.";
+  }
+
   if (personality === "Roast") {
     return `Imagine breaking a ${streak}-day streak now. That would be a historic fumble.`;
   }
@@ -29,9 +33,9 @@ function getStreakMessage(personality, streak) {
 }
 
 function StreakCard({ personality, progress }) {
-  const currentStreak = progress >= 70 ? 7 : 6;
-  const longestStreak = 23;
-  const disciplineScore = Math.min(100, 50 + currentStreak * 5);
+  const currentStreak = progress >= 70 ? 1 : 0;
+  const longestStreak = currentStreak;
+  const disciplineScore = currentStreak === 0 ? 0 : Math.min(100, 50 + currentStreak * 5);
   const level = getLevel(currentStreak);
 
   return (
@@ -39,7 +43,9 @@ function StreakCard({ personality, progress }) {
       <div className="streak-header">
         <div>
           <p className="eyebrow">Streak System</p>
-          <h3><Flame size={22} /> Discipline Streak</h3>
+          <h3>
+            <Flame size={22} /> Discipline Streak
+          </h3>
         </div>
 
         <div className="streak-flame">🔥</div>
@@ -73,7 +79,7 @@ function StreakCard({ personality, progress }) {
         <div>
           <ShieldCheck size={19} />
           <span>Status</span>
-          <b>{progress >= 70 ? "Protected" : "At Risk"}</b>
+          <b>{progress >= 70 ? "Protected" : "Not Started"}</b>
         </div>
       </div>
 

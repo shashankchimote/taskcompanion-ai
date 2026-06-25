@@ -1,4 +1,10 @@
-import { Bot, Flame, Dumbbell, BookOpen, Sparkles } from "lucide-react";
+import {
+  Bot,
+  Flame,
+  Dumbbell,
+  BookOpen,
+  Sparkles,
+} from "lucide-react";
 
 function getJarvisTone(personality, progress) {
   if (personality === "Roast") {
@@ -31,40 +37,50 @@ function getJarvisTone(personality, progress) {
 }
 
 function getStrongestArea(goals) {
-  const fitnessTasks = goals.filter((goal) =>
-    goal.title.toLowerCase().includes("gym") ||
-    goal.title.toLowerCase().includes("workout")
+  const fitnessTasks = goals.filter(
+    (goal) =>
+      goal.title.toLowerCase().includes("gym") ||
+      goal.title.toLowerCase().includes("workout")
   );
 
-  const academicTasks = goals.filter((goal) =>
-    goal.title.toLowerCase().includes("dsa") ||
-    goal.title.toLowerCase().includes("assignment") ||
-    goal.title.toLowerCase().includes("exam") ||
-    goal.title.toLowerCase().includes("ml") ||
-    goal.title.toLowerCase().includes("course") ||
-    goal.title.toLowerCase().includes("study")
+  const academicTasks = goals.filter(
+    (goal) =>
+      goal.title.toLowerCase().includes("dsa") ||
+      goal.title.toLowerCase().includes("assignment") ||
+      goal.title.toLowerCase().includes("exam") ||
+      goal.title.toLowerCase().includes("ml") ||
+      goal.title.toLowerCase().includes("course") ||
+      goal.title.toLowerCase().includes("study")
   );
 
-  const fitnessCompleted = fitnessTasks.filter((goal) => goal.completed).length;
-  const academicCompleted = academicTasks.filter((goal) => goal.completed).length;
+  const fitnessCompleted = fitnessTasks.filter(
+    (goal) => goal.completed
+  ).length;
+
+  const academicCompleted = academicTasks.filter(
+    (goal) => goal.completed
+  ).length;
 
   if (fitnessCompleted >= academicCompleted) return "Fitness";
+
   return "Academics";
 }
 
 function getWeakestArea(goals) {
-  const fitnessTasks = goals.filter((goal) =>
-    goal.title.toLowerCase().includes("gym") ||
-    goal.title.toLowerCase().includes("workout")
+  const fitnessTasks = goals.filter(
+    (goal) =>
+      goal.title.toLowerCase().includes("gym") ||
+      goal.title.toLowerCase().includes("workout")
   );
 
-  const academicTasks = goals.filter((goal) =>
-    goal.title.toLowerCase().includes("dsa") ||
-    goal.title.toLowerCase().includes("assignment") ||
-    goal.title.toLowerCase().includes("exam") ||
-    goal.title.toLowerCase().includes("ml") ||
-    goal.title.toLowerCase().includes("course") ||
-    goal.title.toLowerCase().includes("study")
+  const academicTasks = goals.filter(
+    (goal) =>
+      goal.title.toLowerCase().includes("dsa") ||
+      goal.title.toLowerCase().includes("assignment") ||
+      goal.title.toLowerCase().includes("exam") ||
+      goal.title.toLowerCase().includes("ml") ||
+      goal.title.toLowerCase().includes("course") ||
+      goal.title.toLowerCase().includes("study")
   );
 
   const fitnessRate =
@@ -86,10 +102,19 @@ function getWeakestArea(goals) {
         );
 
   if (academicRate <= fitnessRate) return "Academics";
+
   return "Fitness";
 }
 
-function JarvisCard({ personality, goals, completedCount, progress }) {
+function JarvisCard({
+  user,
+  personality,
+  goals,
+  completedCount,
+  progress,
+}) {
+  const firstName = user?.name?.split(" ")[0] || "User";
+
   const strongestArea = getStrongestArea(goals);
   const weakestArea = getWeakestArea(goals);
   const streakStatus = progress >= 70 ? "protected" : "at risk";
@@ -99,7 +124,10 @@ function JarvisCard({ personality, goals, completedCount, progress }) {
       <div className="jarvis-v2-head">
         <div>
           <p className="eyebrow">Jarvis Companion</p>
-          <h2><Bot size={30} /> Good evening, Shashank.</h2>
+
+          <h2>
+            <Bot size={30} /> Good evening, {firstName}.
+          </h2>
         </div>
 
         <div className="jarvis-mode">
@@ -109,7 +137,8 @@ function JarvisCard({ personality, goals, completedCount, progress }) {
       </div>
 
       <p className="jarvis-main-text">
-        You completed <b>{completedCount}</b> out of <b>{goals.length}</b> tasks today.
+        You completed <b>{completedCount}</b> out of{" "}
+        <b>{goals.length}</b> tasks today.
         Your productivity score is <b>{progress}%</b>.
       </p>
 
